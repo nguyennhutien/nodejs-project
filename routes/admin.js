@@ -1,7 +1,11 @@
+const path = require('path');
 const express = require('express');
 const router = express.Router();
+const dataProducts = require(path.join(__dirname, '../data/products'));
+const dataCategories = require(path.join(__dirname, '../data/categories'));
+const dataUsers = require(path.join(__dirname, '../data/users'));
 
-const contextDashboard = {
+const navLeft = {
   nav: [
     {
       url: '/admin',
@@ -24,27 +28,31 @@ const contextDashboard = {
       title: 'Users'
     }
   ],
+};
+const dashboardCard = {
   analyticCard: [
     {
       name: 'Products',
       icon: 'shopping-basket',
       cardColor: 'primary',
-      totalCount: 26
+      totalCount: dataProducts.pagination.total
     },
     {
       name: 'Categories',
       icon: 'tags',
       cardColor: 'green',
-      totalCount: 12
+      totalCount: dataCategories.pagination.total
     },
     {
       name: 'Users',
       icon: 'user',
       cardColor: 'yellow',
-      totalCount: 124
+      totalCount: dataUsers.pagination.total
     }
   ]
 };
+const contextDashboard = { ...navLeft, ...dashboardCard };
+
 /* GET admin page. */
 router.get('/', (req, res, next) => {
   res.render('admin', contextDashboard);
@@ -52,17 +60,38 @@ router.get('/', (req, res, next) => {
 
 /* GET products page. */
 router.get('/products', (req, res, next) => {
-  res.render('list', contextDashboard);
+  res.render('list', {
+    title: 'Products',
+    products: true,
+    table: true,
+    paging: true,
+    ...navLeft,
+    ...dataProducts
+  });
 });
 
 /* GET categories page. */
 router.get('/categories', (req, res, next) => {
-  res.render('list', contextDashboard);
+  res.render('list', {
+    title: 'Categories',
+    categories: true,
+    table: true,
+    paging: true,
+    ...navLeft,
+    ...dataCategories
+  });
 });
 
 /* GET users page. */
 router.get('/users', (req, res, next) => {
-  res.render('list', contextDashboard);
+  res.render('list', {
+    title: 'Users',
+    users: true,
+    table: true,
+    paging: true,
+    ...navLeft,
+    ...dataUsers
+  });
 });
 
 module.exports = router;

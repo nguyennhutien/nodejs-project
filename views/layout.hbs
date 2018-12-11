@@ -19,6 +19,14 @@
   <!-- Custom Fonts -->
   <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+  {{#if table}}
+  <!-- DataTables CSS -->
+  <link href="/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+  <!-- DataTables Responsive CSS -->
+  <link href="/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+  {{/if}}
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -47,8 +55,25 @@
   <script src="/vendor/morrisjs/morris.min.js"></script>
   <script src="/vendor/data/morris-data.js"></script>
 
+  {{#if table}}
+  <!-- DataTables JavaScript -->
+  <script src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
+  <script src="/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+  <script src="/vendor/datatables-responsive/dataTables.responsive.js"></script>
+  {{/if}}
+
   <!-- Custom Theme JavaScript -->
   <script src="/vendor/sb-admin/sb-admin-2.min.js"></script>
+
+  {{#if paging}}
+  <script>
+    $(document).ready(function () {
+      $('#dataTables-example').DataTable({
+        responsive: true
+      });
+    });
+  </script>
+  {{/if}}
 </body>
 
 </html>
