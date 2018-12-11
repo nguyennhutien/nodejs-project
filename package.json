@@ -1,0 +1,30 @@
+{
+  "name": "nodejs-project",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Tien Nguyen",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./bin/www"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "hbs": "~4.0.1",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyennhutien/nodejs-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nguyennhutien/nodejs-project/issues"
+  },
+  "homepage": "https://github.com/nguyennhutien/nodejs-project#readme"
+}
