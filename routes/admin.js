@@ -35,19 +35,25 @@ const dashboardCard = {
       name: 'Products',
       icon: 'shopping-basket',
       cardColor: 'primary',
-      totalCount: dataProducts.pagination.total
+      totalCount() {
+        return dataProducts.body.length;
+      }
     },
     {
       name: 'Categories',
       icon: 'tags',
       cardColor: 'green',
-      totalCount: dataCategories.pagination.total
+      totalCount() {
+        return dataCategories.body.length;
+      }
     },
     {
       name: 'Users',
       icon: 'user',
       cardColor: 'yellow',
-      totalCount: dataUsers.pagination.total
+      totalCount() {
+        return dataUsers.body.length;
+      }
     }
   ]
 };
