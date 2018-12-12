@@ -1,0 +1,6 @@
+ul[data-dtr-index] {
+  width: 100%;
+}
+table.dataTable > tbody > tr.child span.dtr-title {
+  min-width: 130px;
+}
