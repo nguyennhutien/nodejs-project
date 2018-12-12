@@ -1,35 +1,32 @@
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const createError = require('http-errors');
 const dataProducts = require(path.join(__dirname, '../data/products'));
 const dataCategories = require(path.join(__dirname, '../data/categories'));
 const dataUsers = require(path.join(__dirname, '../data/users'));
-
-const app = express();
 
 const navLeft = {
   nav: [
     {
       url: '/admin',
       icon: 'dashboard',
-      title: 'Dashboard'
+      title: 'Dashboard',
     },
     {
       url: '/admin/products',
       icon: 'shopping-basket',
-      title: 'Products'
+      title: 'Products',
     },
     {
       url: '/admin/categories',
       icon: 'tags',
-      title: 'Categories'
+      title: 'Categories',
     },
     {
       url: '/admin/users',
       icon: 'user',
-      title: 'Users'
-    }
+      title: 'Users',
+    },
   ],
 };
 const dashboardCard = {
@@ -40,7 +37,7 @@ const dashboardCard = {
       cardColor: 'primary',
       totalCount() {
         return dataProducts.body.length;
-      }
+      },
     },
     {
       name: 'Categories',
@@ -48,7 +45,7 @@ const dashboardCard = {
       cardColor: 'green',
       totalCount() {
         return dataCategories.body.length;
-      }
+      },
     },
     {
       name: 'Users',
@@ -56,9 +53,9 @@ const dashboardCard = {
       cardColor: 'yellow',
       totalCount() {
         return dataUsers.body.length;
-      }
-    }
-  ]
+      },
+    },
+  ],
 };
 const contextDashboard = { ...navLeft, ...dashboardCard };
 
@@ -75,7 +72,7 @@ router.get('/products', (req, res, next) => {
     table: true,
     paging: true,
     ...navLeft,
-    ...dataProducts
+    ...dataProducts,
   });
 });
 
@@ -87,7 +84,7 @@ router.get('/categories', (req, res, next) => {
     table: true,
     paging: true,
     ...navLeft,
-    ...dataCategories
+    ...dataCategories,
   });
 });
 
@@ -99,13 +96,13 @@ router.get('/users', (req, res, next) => {
     table: true,
     paging: true,
     ...navLeft,
-    ...dataUsers
+    ...dataUsers,
   });
 });
 
 /* GET users page. */
 router.get('/products/:id', (req, res, next) => {
-  const productArr = dataProducts.body.filter((item) => {
+  const productArr = dataProducts.body.filter(item => {
     if (item.id == req.params.id) {
       return true;
     }
@@ -118,10 +115,9 @@ router.get('/products/:id', (req, res, next) => {
       table: true,
       paging: true,
       ...navLeft,
-      product: {...product}
+      product: { ...product },
     });
-  }
-  else {
+  } else {
     // catch 404
     res.status(404).send('404');
   }
