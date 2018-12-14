@@ -136,7 +136,7 @@ router.get('/users', (req, res, next) => {
   });
 });
 
-/* GET users page. */
+/* GET product detail page. */
 router.get('/products/:id', (req, res, next) => {
 
   const productArr = productsFormatted.body.filter(item => {
