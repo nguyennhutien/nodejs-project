@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const router = express.Router();
+const { format } = require('date-fns');
 const numeral = require('numeral');
 const dataProducts = require(path.join(__dirname, '../data/products'));
 const dataCategories = require(path.join(__dirname, '../data/categories'));
@@ -62,12 +63,18 @@ const dashboardCard = {
 
 const contextDashboard = { ...navLeft, ...dashboardCard };
 
-// clone product obj
+// clone obj
 const productsFormatted = cloneObj(dataProducts);
+const usersFormatted = cloneObj(dataUsers);
 
 // function clone obj
 function cloneObj(src) {
   return JSON.parse(JSON.stringify(src));
+}
+
+// function date format
+function dateFormatted(date) {
+  return format(new Date(date), 'MM/DD/YYYY');
 }
 
 // function price format
@@ -75,6 +82,10 @@ function priceFormatted(price) {
   return numeral(price).format('($ 0[.]00A)');
 }
 
+// format date in users dob
+usersFormatted.body.forEach(e => {
+  e.dob = dateFormatted(e.dob);
+});
 // format price in product obj
 productsFormatted.body.forEach(e => {
   e.salePrice = priceFormatted(e.salePrice);
@@ -121,7 +132,7 @@ router.get('/users', (req, res, next) => {
     table: true,
     paging: true,
     ...navLeft,
-    ...dataUsers,
+    ...usersFormatted,
   });
 });
 
@@ -145,7 +156,7 @@ router.get('/products/:id', (req, res, next) => {
       table: true,
       paging: true,
       ...navLeft,
-      product: { ...product },
+      products: [...productArr],
     });
   } else {
     // catch 404
