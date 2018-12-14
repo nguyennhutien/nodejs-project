@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const router = express.Router();
+const numeral = require('numeral');
 const dataProducts = require(path.join(__dirname, '../data/products'));
 const dataCategories = require(path.join(__dirname, '../data/categories'));
 const dataUsers = require(path.join(__dirname, '../data/users'));
@@ -29,6 +30,7 @@ const navLeft = {
     },
   ],
 };
+
 const dashboardCard = {
   analyticCard: [
     {
@@ -57,7 +59,27 @@ const dashboardCard = {
     },
   ],
 };
+
 const contextDashboard = { ...navLeft, ...dashboardCard };
+
+// clone product obj
+const productsFormatted = cloneObj(dataProducts);
+
+// function clone obj
+function cloneObj(src) {
+  return JSON.parse(JSON.stringify(src));
+}
+
+// function price format
+function priceFormatted(price) {
+  return numeral(price).format('($ 0[.]00A)');
+}
+
+// format price in product obj
+productsFormatted.body.forEach(e => {
+  e.salePrice = priceFormatted(e.salePrice);
+  e.originalPrice = priceFormatted(e.originalPrice);
+});
 
 /* GET admin page. */
 router.get('/', (req, res, next) => {
@@ -72,7 +94,7 @@ router.get('/products', (req, res, next) => {
     table: true,
     paging: true,
     ...navLeft,
-    ...dataProducts,
+    ...productsFormatted,
   });
 });
 
@@ -102,13 +124,17 @@ router.get('/users', (req, res, next) => {
 
 /* GET users page. */
 router.get('/products/:id', (req, res, next) => {
-  const productArr = dataProducts.body.filter(item => {
+
+  const productArr = productsFormatted.body.filter(item => {
     if (item.id == req.params.id) {
       return true;
     }
     return false;
   });
-  const product = Object.assign({}, productArr[0]);
+
+  // assign body to product obj
+  const product = {...productArr[0]};
+
   if (product.id == req.params.id) {
     res.render('product-detail', {
       title: product.name,
