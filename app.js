@@ -14,8 +14,13 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-// // registers 'inc' helper, which simply increments a value by 1
-hbs.registerPartial('test-tem', 'test-template')
+
+// register partials
+hbs.registerPartials(__dirname + '/views/partials');
+hbs.registerPartials(__dirname + '/views/pages');
+
+// register helper
+hbs.registerHelper('inc', (value) => parseInt(value) + 1);
 
 app.use(logger('dev'));
 app.use(express.json());

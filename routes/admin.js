@@ -83,12 +83,15 @@ productsFormatted.body.forEach(e => {
 
 /* GET admin page. */
 router.get('/', (req, res, next) => {
-  res.render('admin', contextDashboard);
+  res.render('admin', {
+    title: 'Dashboard',
+    dashboard: true,
+    ...contextDashboard});
 });
 
 /* GET products page. */
 router.get('/products', (req, res, next) => {
-  res.render('list', {
+  res.render('admin', {
     title: 'Products',
     products: true,
     table: true,
@@ -100,7 +103,7 @@ router.get('/products', (req, res, next) => {
 
 /* GET categories page. */
 router.get('/categories', (req, res, next) => {
-  res.render('list', {
+  res.render('admin', {
     title: 'Categories',
     categories: true,
     table: true,
@@ -112,7 +115,7 @@ router.get('/categories', (req, res, next) => {
 
 /* GET users page. */
 router.get('/users', (req, res, next) => {
-  res.render('list', {
+  res.render('admin', {
     title: 'Users',
     users: true,
     table: true,
@@ -136,8 +139,9 @@ router.get('/products/:id', (req, res, next) => {
   const product = {...productArr[0]};
 
   if (product.id == req.params.id) {
-    res.render('product-detail', {
+    res.render('admin', {
       title: product.name,
+      productDetail: true,
       table: true,
       paging: true,
       ...navLeft,

@@ -1,0 +1,15 @@
+<div class="navbar-default sidebar" role="navigation">
+  <div class="sidebar-nav navbar-collapse">
+    <ul class="nav" id="side-menu">
+      {{#each nav}}
+      <li>
+        <a href="{{ url }}"><i class="fa fa-fw fa-{{ icon }}"></i> {{ title }}</a>
+      </li>
+      {{else}}
+      <li>
+        Empty
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
