@@ -21,58 +21,56 @@
             </tr>
           </thead>
           <tbody>
-            {{#each products as |i key|}}
-              {{#if i}}
-              <tr>
-                <td>ID</td>
-                <td>{{ id }}</td>
-              </tr>
-              <tr>
-                <td>Name</td>
-                <td>{{ name }}</td>
-              </tr>
-              <tr>
-                <td>Image</td>
-                <td><img src="{{ image }}" alt="{{ name }}"></td>
-              </tr>
-              <tr>
-                <td>Thumbnail</td>
-                <td><img src="{{ thumbnail }}" alt="{{ name }} Thumbnail" width="100"></td>
-              </tr>
-              <tr>
-                <td>Description</td>
-                <td>{{ shortDescription }}</td>
-              </tr>
-              <tr>
-                <td>Category Id</td>
-                <td>{{ categoryId }}</td>
-              </tr>
-              <tr>
-                <td>Sale Price</td>
-                <td>{{ salePrice }}</td>
-              </tr>
-              <tr>
-                <td>Original Price</td>
-                <td>{{ originalPrice }}</td>
-              </tr>
-              <tr>
-                <td>Images</td>
-                <td>
-                  {{#each images}}
-                  <img src="{{ this }}">
-                  {{/each}}
-                </td>
-              </tr>
-              <tr>
-                <td>Thumbnails</td>
-                <td>
-                  {{#each thumbnails}}
-                  <img src="{{ this }}" width="100">
-                  {{/each}}
-                </td>
-              </tr>
-              {{/if}}
-            {{/each}}
+            {{#with product}}
+            <tr>
+              <td>ID</td>
+              <td>{{ id }}</td>
+            </tr>
+            <tr>
+              <td>Name</td>
+              <td>{{ name }}</td>
+            </tr>
+            <tr>
+              <td>Image</td>
+              <td><img src="{{ image }}" alt="{{ name }}"></td>
+            </tr>
+            <tr>
+              <td>Thumbnail</td>
+              <td><img src="{{ thumbnail }}" alt="{{ name }} Thumbnail" width="100"></td>
+            </tr>
+            <tr>
+              <td>Description</td>
+              <td>{{ shortDescription }}</td>
+            </tr>
+            <tr>
+              <td>Category</td>
+              <td>{{ category }}</td>
+            </tr>
+            <tr>
+              <td>Sale Price</td>
+              <td>{{ salePrice }}</td>
+            </tr>
+            <tr>
+              <td>Original Price</td>
+              <td>{{ originalPrice }}</td>
+            </tr>
+            <tr>
+              <td>Images</td>
+              <td>
+                {{#each images}}
+                <img src="{{ this }}">
+                {{/each}}
+              </td>
+            </tr>
+            <tr>
+              <td>Thumbnails</td>
+              <td>
+                {{#each thumbnails}}
+                <img src="{{ this }}" width="100">
+                {{/each}}
+              </td>
+            </tr>
+            {{/with}}
           </tbody>
         </table>
         <!-- /.table-responsive -->

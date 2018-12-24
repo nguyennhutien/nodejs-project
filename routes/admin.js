@@ -1,167 +1,102 @@
-const path = require('path');
 const express = require('express');
 const router = express.Router();
-const { format } = require('date-fns');
-const numeral = require('numeral');
-const dataProducts = require(path.join(__dirname, '../data/products'));
-const dataCategories = require(path.join(__dirname, '../data/categories'));
-const dataUsers = require(path.join(__dirname, '../data/users'));
 
-const navLeft = {
-  nav: [
-    {
-      url: '/admin',
-      icon: 'dashboard',
-      title: 'Dashboard',
-    },
-    {
-      url: '/admin/products',
-      icon: 'shopping-basket',
-      title: 'Products',
-    },
-    {
-      url: '/admin/categories',
-      icon: 'tags',
-      title: 'Categories',
-    },
-    {
-      url: '/admin/users',
-      icon: 'user',
-      title: 'Users',
-    },
-  ],
-};
+const routerProducts = require('./admin.products');
+const routerUsers = require('./admin.users');
+const routerCategories = require('./admin.categories');
 
-const dashboardCard = {
-  analyticCard: [
-    {
-      name: 'Products',
-      icon: 'shopping-basket',
-      cardColor: 'primary',
-      totalCount() {
-        return dataProducts.body.length;
-      },
-    },
-    {
-      name: 'Categories',
-      icon: 'tags',
-      cardColor: 'green',
-      totalCount() {
-        return dataCategories.body.length;
-      },
-    },
-    {
-      name: 'Users',
-      icon: 'user',
-      cardColor: 'yellow',
-      totalCount() {
-        return dataUsers.body.length;
-      },
-    },
-  ],
-};
+const navLeft = require('../components/navLeft');
+const dashboardCard = require('../components/dashboardCard');
+
+const Product = require('../models/Product');
+const User = require('../models/User');
+const Category = require('../models/Category');
+
+// const dataProducts = require('../data/products');
+// const dataUsers = require('../data/users');
+// const dataCategories = require('../data/categories');
 
 const contextDashboard = { ...navLeft, ...dashboardCard };
 
-// clone obj
-const productsFormatted = cloneObj(dataProducts);
-const usersFormatted = cloneObj(dataUsers);
+function wrapJson(body) {
+  if (body instanceof Error) {
+    return {
+      header: {
+        status: 400,
+        errorMessage: `${body.name}: ${body.message}`,
+        currentDate: new Date(),
+      },
+      body,
+    };
+  }
 
-// function clone obj
-function cloneObj(src) {
-  return JSON.parse(JSON.stringify(src));
+  return {
+    header: {
+      status: 200,
+      errorMessage: '',
+      currentDate: new Date(),
+      count: Array.isArray(body) ? body.length : body ? 1 : 0,
+    },
+    body,
+  };
 }
 
-// function date format
-function dateFormatted(date) {
-  return format(new Date(date), 'MM/DD/YYYY');
-}
+// function itemCount(body) {
+//   return Array.isArray(body) ? body.length : body ? 1 : 0;
+// }
 
-// function price format
-function priceFormatted(price) {
-  return numeral(price).format('($ 0[.]00A)');
-}
-
-// format date in users dob
-usersFormatted.body.forEach(e => {
-  e.dob = dateFormatted(e.dob);
+// a middleware to enhance res object
+router.use((req, res, next) => {
+  // attach a new method to res object for convenient
+  res.sendRest = (body) => {
+    if (body instanceof Error) {
+      res.statusCode = 400;
+    }
+    return res.json(wrapJson(body));
+  };
+  next();
 });
-// format price in product obj
-productsFormatted.body.forEach(e => {
-  e.salePrice = priceFormatted(e.salePrice);
-  e.originalPrice = priceFormatted(e.originalPrice);
-});
 
-/* GET admin page. */
+// router.use((req, res, next) => {
+//   res.productsCount = (body) => {
+//     if (body instanceof Error) {
+//       res.statusCode = 400;
+//     }
+//     return res.itemCount(body);
+//   }
+//   Product.find({})
+//     .exec()
+//     .then((products) => {
+//       itemCount(products);
+//     });
+//   next();
+// });
+
 router.get('/', (req, res, next) => {
+
+  // total counting of products, users, categories
+  contextDashboard.analyticCard.forEach(e => {
+    if (e.name === 'Products') {
+      e.totalCount = () => dataProducts.body.length;
+    }
+    else if (e.name === 'Users') {
+      e.totalCount = () => dataUsers.body.length;
+    }
+    else {
+      e.totalCount = () => dataCategories.body.length;
+    }
+  });
+
+  /* GET admin page. */
   res.render('admin', {
     title: 'Dashboard',
     dashboard: true,
-    ...contextDashboard});
-});
-
-/* GET products page. */
-router.get('/products', (req, res, next) => {
-  res.render('admin', {
-    title: 'Products',
-    products: true,
-    table: true,
-    paging: true,
-    ...navLeft,
-    ...productsFormatted,
+    ...contextDashboard,
   });
 });
 
-/* GET categories page. */
-router.get('/categories', (req, res, next) => {
-  res.render('admin', {
-    title: 'Categories',
-    categories: true,
-    table: true,
-    paging: true,
-    ...navLeft,
-    ...dataCategories,
-  });
-});
-
-/* GET users page. */
-router.get('/users', (req, res, next) => {
-  res.render('admin', {
-    title: 'Users',
-    users: true,
-    table: true,
-    paging: true,
-    ...navLeft,
-    ...usersFormatted,
-  });
-});
-
-/* GET product detail page. */
-router.get('/products/:id', (req, res, next) => {
-
-  const productArr = productsFormatted.body.filter(item => {
-    if (item.id == req.params.id) {
-      return true;
-    }
-    return false;
-  });
-
-  // assign body to product obj
-  const product = {...productArr[0]};
-
-  if (product.id == req.params.id) {
-    res.render('admin', {
-      title: product.name,
-      productDetail: true,
-      table: true,
-      paging: true,
-      ...navLeft,
-      products: [...productArr],
-    });
-  } else {
-    // catch 404
-    res.status(404).send('404');
-  }
-});
+routerProducts(router);
+routerUsers(router);
+routerCategories(router);
 
 module.exports = router;

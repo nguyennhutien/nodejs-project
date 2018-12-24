@@ -20,51 +20,40 @@
                 products list with action col on header
               --}}
               {{#if products}}
-                {{#each body as |i key|}} {{!-- body is array --}}
-                  {{#if @first}}
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Thumbnail</th>
-                    <th>Description</th>
-                    <th>Category ID</th>
-                    <th>Sale Price</th>
-                    <th>Original Price</th>
-                    <th>Product Images</th>
-                    <th>Action</th>
-                  {{/if}}
-                {{/each}}
+                <th>#</th>
+                <th>Name</th>
+                <th>Thumbnail</th>
+                <th>Description</th>
+                <th>Category ID</th>
+                <th>Sale Price</th>
+                <th>Original Price</th>
+                <th>Product Images</th>
+                <th>Action</th>
               {{/if}}
 
               {{!-- categories --}}
               {{#if categories}}
-                {{#each body as |i key|}} {{!-- body is array --}}
-                  {{#if @first}}
-                    {{#each i as |j key| }}
-                    <th>{{ key }}</th>
-                    {{/each}}
-                  {{/if}}
-                {{/each}}
+                <th>ID</th>
+                <th>Name</th>
+                <th>Icon Name</th>
+                <th>Description</th>
               {{/if}}
 
               {{!-- users --}}
               {{#if users}}
-                {{#each body as |i key|}} {{!-- body is array --}}
-                  {{#if @first}}
-                    <th>ID</th>
-                    <th>Avatar</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>DoB</th>
-                    <th>Email</th>
-                    <th>Email Verified</th>
-                    <th>Role</th>
-                    <th>Phone Number</th>
-                    <th>Username</th>
-                    <th>Gender</th>
-                    <th>Zip Code</th>
-                    <th>Country</th>
-                  {{/if}}
-                {{/each}}
+                <th>ID</th>
+                <th>Avatar</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>DoB</th>
+                <th>Email</th>
+                <th>Email Verified</th>
+                <th>Role</th>
+                <th>Phone Number</th>
+                <th>Username</th>
+                <th>Gender</th>
+                <th>Zip Code</th>
+                <th>Country</th>
               {{/if}}
             </tr>
           </thead>
@@ -73,9 +62,8 @@
               products list with action button link to detail
             --}}
             {{#if products}}
-              {{#each body as |i key|}} {{!-- body is array --}}
+              {{#each productsArr}}
               <tr>
-                {{#if i}}
                 <td>{{inc @index}}</td>
                 <td>{{ name }}</td>
                 <td><img src="{{ thumbnail }}" alt="{{ name }}" width="100"></td>
@@ -89,25 +77,25 @@
                   {{/each}}
                 </td>
                 <td class="text-center"><a class="btn btn-outline btn-default btn-xs" href="products/{{ id }}">Detail</a></td>
-                {{/if}}
               </tr>
               {{/each}}
             {{/if}}
 
             {{!-- categories --}}
             {{#if categories}}
-              {{#each body as |i key|}} {{!-- body is array --}}
+              {{#each categoriesArr}}
               <tr>
-                {{#each i }}
-                <td>{{ this }}</td>
-                {{/each}}
+                <td>{{ _id }}</td>
+                <td>{{ name }}</td>
+                <td>{{ iconName }}</td>
+                <td>{{ descriptions }}</td>
               </tr>
               {{/each}}
             {{/if}}
 
             {{!-- users --}}
             {{#if users}}
-              {{#each body as |i key|}} {{!-- body is array --}}
+              {{#each usersArr as |i key|}} {{!-- body is array --}}
               <tr>
                 {{#if i }}
                 <td>{{ id }}</td>
