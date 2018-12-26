@@ -41,7 +41,7 @@ module.exports = (router) => {
 
   // PATCH: update a product partially with new info
   router.patch(`/${collection}/:id`, (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
     const updateBody = req.body;
     Category.findByIdAndUpdate(id, updateBody)
       .exec()
@@ -55,7 +55,7 @@ module.exports = (router) => {
 
   // DELETE: product
   router.delete(`/${collection}/:id`, (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
     Category.findByIdAndRemove(id)
       .exec()
       .then((category) => {

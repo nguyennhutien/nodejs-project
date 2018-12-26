@@ -3,7 +3,6 @@ const Product = require('../models/Product');
 const navLeft = require('../components/navLeft');
 //const dataProducts = require('../data/products');
 
-
 const collection = 'products';
 
 // function price format
@@ -24,6 +23,8 @@ module.exports = (router) => {
           e.salePrice = priceFormatted(e.salePrice);
           e.originalPrice = priceFormatted(e.originalPrice);
         }
+
+        console.log(productsArr);
 
         res.render('admin', {
           productsArr,
@@ -48,6 +49,8 @@ module.exports = (router) => {
         // format price in product obj
         product.salePrice = priceFormatted(product.salePrice);
         product.originalPrice = priceFormatted(product.originalPrice);
+
+        console.log(product);
 
         res.render('admin', {
           product,

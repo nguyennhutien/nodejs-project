@@ -46,7 +46,7 @@ module.exports = (router) => {
 
   // PATCH (update one)
   router.patch(`/${collection}/:id`, (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
     const updateBody = req.body;
     // update one document
     User.findByIdAndUpdate(id, updateBody, { runValidators: true })
@@ -62,7 +62,7 @@ module.exports = (router) => {
 
   // DELETE (delete one)
   router.delete(`/${collection}/:id`, (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
     // delete one document
     User.findByIdAndRemove(id)
       .exec()

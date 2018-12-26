@@ -12,10 +12,6 @@ const Product = require('../models/Product');
 const User = require('../models/User');
 const Category = require('../models/Category');
 
-// const dataProducts = require('../data/products');
-// const dataUsers = require('../data/users');
-// const dataCategories = require('../data/categories');
-
 const contextDashboard = { ...navLeft, ...dashboardCard };
 
 function wrapJson(body) {
@@ -41,10 +37,6 @@ function wrapJson(body) {
   };
 }
 
-// function itemCount(body) {
-//   return Array.isArray(body) ? body.length : body ? 1 : 0;
-// }
-
 // a middleware to enhance res object
 router.use((req, res, next) => {
   // attach a new method to res object for convenient
@@ -57,42 +49,49 @@ router.use((req, res, next) => {
   next();
 });
 
-// router.use((req, res, next) => {
-//   res.productsCount = (body) => {
-//     if (body instanceof Error) {
-//       res.statusCode = 400;
-//     }
-//     return res.itemCount(body);
-//   }
-//   Product.find({})
-//     .exec()
-//     .then((products) => {
-//       itemCount(products);
-//     });
-//   next();
-// });
+router.get('/', (req, res) => {
 
-router.get('/', (req, res, next) => {
+  let totalProducts;
+  let totalUsers;
+  let totalCategories;
 
-  // total counting of products, users, categories
-  contextDashboard.analyticCard.forEach(e => {
-    if (e.name === 'Products') {
-      e.totalCount = () => dataProducts.body.length;
-    }
-    else if (e.name === 'Users') {
-      e.totalCount = () => dataUsers.body.length;
-    }
-    else {
-      e.totalCount = () => dataCategories.body.length;
-    }
-  });
+  Product.count({}, (err, count) => {
+    totalProducts = count;
+  })
+  .exec()
+  .then(() => {
+    User.count({}, (err, count) => {
+      totalUsers = count;
+    })
+    .exec()
+    .then(() => {
+      Category.count({}, (err, count) => {
+        totalCategories = count;
+      })
+      .exec()
+      .then(() => {
+        // calculate total number of products, users, categories
+        contextDashboard.analyticCard.forEach(e => {
+          if (e.name === 'Products') {
+            e.totalCount = totalProducts;
+          }
+          else if (e.name === 'Users') {
+            e.totalCount = totalUsers;
+          }
+          else {
+            e.totalCount = totalCategories;
+          }
+        });
+        /* GET admin page. */
+        res.render('admin', {
+          title: 'Dashboard',
+          dashboard: true,
+          ...contextDashboard,
+        });
+      })
+    })
+  })
 
-  /* GET admin page. */
-  res.render('admin', {
-    title: 'Dashboard',
-    dashboard: true,
-    ...contextDashboard,
-  });
 });
 
 routerProducts(router);

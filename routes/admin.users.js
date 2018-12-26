@@ -16,11 +16,14 @@ module.exports = (router) => {
     User.find({})
       .exec()
       .then((usersArr) => {
-        // for (let i = 0; i < usersArr.length; i++) {
-        //   const e = usersArr[i];
-        //   e.dob = dateFormatted(e.dob);
-        //   e.dateCreated = dateFormatted(e.dateCreated);
-        // }
+        for (let i = 0; i < usersArr.length; i++) {
+          const e = usersArr[i];
+          e.dob = dateFormatted(e.dob);
+          e.dateCreated = dateFormatted(e.dateCreated);
+        }
+
+        console.log(usersArr);
+
         res.render('admin', {
           usersArr,
           ...navLeft,

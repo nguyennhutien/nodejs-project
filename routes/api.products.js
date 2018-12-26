@@ -4,9 +4,8 @@ require('../models/Category');
 const collection = 'products';
 
 module.exports = (router) => {
-  // GET all the products
+  // GET all the products & GET /api/products?filter={json}
   // router.get(`/${collection}`, (req, res) => {
-
   //   Product.find({})
   //     .populate('category')
   //     .exec()
@@ -46,6 +45,22 @@ module.exports = (router) => {
       });
   });
 
+  // PATCH: update a product partially with new info
+  router.patch(`/${collection}/:id`, (req, res) => {
+
+    const { id } = req.params;
+    const updateBody = req.body;
+
+    Product.findByIdAndUpdate(id, updateBody)
+      .exec()
+      .then((product) => {
+        res.sendRest({ ...product.toObject(), ...updateBody });
+      })
+      .catch((err) => {
+        res.sendRest(err);
+      });
+  });
+
   // GET /api/products?filter={json}
   router.get(`/${collection}`, (req, res) => {
 
@@ -70,26 +85,10 @@ module.exports = (router) => {
       });
   });
 
-  // PATCH: update a product partially with new info
-  router.patch(`/${collection}/:id`, (req, res) => {
-
-    const id = req.params.id;
-    const updateBody = req.body;
-
-    Product.findByIdAndUpdate(id, updateBody)
-      .exec()
-      .then((product) => {
-        res.sendRest({ ...product.toObject(), ...updateBody });
-      })
-      .catch((err) => {
-        res.sendRest(err);
-      });
-  });
-
   // DELETE: product
   router.delete(`/${collection}/:id`, (req, res) => {
 
-    const id = req.params.id;
+    const { id } = req.params;
 
     Product.findByIdAndRemove(id)
       .exec()

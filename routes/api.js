@@ -50,24 +50,6 @@ router.get('/', (req, res) => {
   });
 });
 
-// const Product = require('../models/Product');
-// // GET /api/products?filter={json}
-// router.get('/products', (req, res) => {
-//   const searchObj = JSON.parse(req.query.filter);
-//   const { where: whereObj, offset: offsetValue, limit: limitValue } = searchObj;
-//   const searchKey = Object.keys(whereObj).toString();
-//   const searchValue = Object.values(whereObj).toString();
-
-//   Product
-//     .where(searchKey).equals(searchValue).skip(offsetValue).limit(limitValue)
-//     .then((products) => {
-//       res.sendRest(products);
-//     })
-//     .catch((err) => {
-//       res.sendRest(err);
-//     });
-// });
-
 apiProducts(router);
 apiUsers(router);
 apiCategories(router);
