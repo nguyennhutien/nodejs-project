@@ -4,3 +4,8 @@ ul[data-dtr-index] {
 table.dataTable > tbody > tr.child span.dtr-title {
   min-width: 130px;
 }
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

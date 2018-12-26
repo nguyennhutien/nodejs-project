@@ -17,12 +17,14 @@ module.exports = (router) => {
       .exec()
       .then((usersArr) => {
         for (let i = 0; i < usersArr.length; i++) {
-          const e = usersArr[i];
-          e.dob = dateFormatted(e.dob);
-          e.dateCreated = dateFormatted(e.dateCreated);
+          let e = usersArr[i];
+          e.dobFormatted = dateFormatted(e.dob);
         }
 
-        console.log(usersArr);
+        // let testDate = '1994-20-10T13:06:35.216Z';
+        // console.log(dateFormatted(testDate));
+
+        console.log(usersArr[0].dobFormatted);
 
         res.render('admin', {
           usersArr,

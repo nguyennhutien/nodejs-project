@@ -69,8 +69,8 @@
                 <td><img src="{{ thumbnail }}" alt="{{ name }}" width="100"></td>
                 <td>{{ shortDescription }}</td>
                 <td>{{ categoryId }}</td>
-                <td class="text-right">{{ salePrice }}</td>
-                <td class="text-right">{{ originalPrice }}</td>
+                <td class="text-right">{{ salePriceFormatted }}</td>
+                <td class="text-right">{{ originalPriceFormatted }}</td>
                 <td>
                   {{#each thumbnails}}
                   <img src="{{ this }}" width="100">
@@ -102,7 +102,7 @@
                 <td><img src="{{ avatar }}" alt="{{ lastName }} {{ firstName }}" width="50"></td>
                 <td>{{ firstName }}</td>
                 <td>{{ lastName }}</td>
-                <td>{{ dob }}</td>
+                <td>{{ dobFormatted }}</td>
                 <td>{{ email }}</td>
                 <td>{{ emailVerified }}</td>
                 <td>{{ role }}</td>

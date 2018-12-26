@@ -1,5 +1,6 @@
 const numeral = require('numeral');
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 const navLeft = require('../components/navLeft');
 //const dataProducts = require('../data/products');
 
@@ -7,7 +8,7 @@ const collection = 'products';
 
 // function price format
 function priceFormatted(price) {
-  return numeral(price).format('($ 0[.]00A)');
+  return numeral(price).format('($ 0[.]00a)');
 }
 
 module.exports = (router) => {
@@ -19,12 +20,10 @@ module.exports = (router) => {
       .then((productsArr) => {
         // format price in product obj
         for (let i = 0; i < productsArr.length; i++) {
-          const e = productsArr[i];
-          e.salePrice = priceFormatted(e.salePrice);
-          e.originalPrice = priceFormatted(e.originalPrice);
+          let e = productsArr[i];
+          e.salePriceFormatted = priceFormatted(e.salePrice);
+          e.originalPriceFormatted = priceFormatted(e.originalPrice);
         }
-
-        console.log(productsArr);
 
         res.render('admin', {
           productsArr,
@@ -34,6 +33,7 @@ module.exports = (router) => {
           table: true,
           paging: true,
         });
+
       })
       .catch((err) => {
         res.sendRest(err);
@@ -46,23 +46,24 @@ module.exports = (router) => {
     Product.findById(id)
       .exec()
       .then((product) => {
-        // format price in product obj
-        product.salePrice = priceFormatted(product.salePrice);
-        product.originalPrice = priceFormatted(product.originalPrice);
 
-        console.log(product);
-
-        res.render('admin', {
-          product,
-          ...navLeft,
-          title: product.name,
-          productDetail: true,
-          table: true,
-          paging: false,
-        });
+        Category.find({})
+          .exec()
+          .then((categoriesArr) => {
+            res.render('admin', {
+              product,
+              categoriesArr,
+              ...navLeft,
+              title: product.name,
+              productDetail: true,
+              table: true,
+              paging: false,
+            });
+          })
+          .catch((err) => {
+            res.sendRest(err);
+          });
       })
-      .catch((err) => {
-        res.sendRest(err);
-      });
   });
+
 };
