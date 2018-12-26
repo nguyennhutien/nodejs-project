@@ -5,18 +5,39 @@ const collection = 'products';
 
 module.exports = (router) => {
   // GET all the products & GET /api/products?filter={json}
-  // router.get(`/${collection}`, (req, res) => {
-  //   Product.find({})
-  //     .populate('category')
-  //     .exec()
-  //     .then((products) => {
-  //       res.sendRest(products);
-  //     })
-  //     .catch((err) => {
-  //       res.sendRest(err);
-  //     });
+  router.get(`/${collection}`, (req, res) => {
+    if (req.query.filter) {
+      const searchObj = JSON.parse(req.query.filter);
+      // where: define a MongDB query object to filter out documents from the collection
+      // offset: number of documents to be skipped from the results returned
+      // limit: number of documents to be returned from the results
+      const { where: queryObj, offset: offsetValue, limit: limitValue } = searchObj;
+      const searchKey = Object.keys(queryObj).toString();
+      const searchValue = Object.values(queryObj).toString();
 
-  // });
+      Product
+        .where(searchKey)
+        .equals(searchValue)
+        .skip(offsetValue)
+        .limit(limitValue)
+        .then((products) => {
+          res.sendRest(products);
+        })
+        .catch((err) => {
+          res.sendRest(err);
+        });
+    }
+    Product.find({})
+      .populate('category')
+      .exec()
+      .then((products) => {
+        res.sendRest(products);
+      })
+      .catch((err) => {
+        res.sendRest(err);
+      });
+
+  });
 
   // POST: Create a new product
   router.post(`/${collection}`, (req, res) => {
@@ -55,30 +76,6 @@ module.exports = (router) => {
       .exec()
       .then((product) => {
         res.sendRest({ ...product.toObject(), ...updateBody });
-      })
-      .catch((err) => {
-        res.sendRest(err);
-      });
-  });
-
-  // GET /api/products?filter={json}
-  router.get(`/${collection}`, (req, res) => {
-
-    const searchObj = JSON.parse(req.query.filter);
-    // where: define a MongDB query object to filter out documents from the collection
-    // offset: number of documents to be skipped from the results returned
-    // limit: number of documents to be returned from the results
-    const { where: queryObj, offset: offsetValue, limit: limitValue } = searchObj;
-    const searchKey = Object.keys(queryObj).toString();
-    const searchValue = Object.values(queryObj).toString();
-
-    Product
-      .where(searchKey)
-      .equals(searchValue)
-      .skip(offsetValue)
-      .limit(limitValue)
-      .then((products) => {
-        res.sendRest(products);
       })
       .catch((err) => {
         res.sendRest(err);
