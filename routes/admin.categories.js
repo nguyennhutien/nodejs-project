@@ -6,7 +6,7 @@ const collection = 'categories';
 
 module.exports = (router) => {
   /* GET categories page. */
-  router.get(`/${collection}`, (req, res, next) => {
+  router.get(`/${collection}`, (req, res) => {
     Category.find({})
       .exec()
       .then((categoriesArr) => {
@@ -14,6 +14,7 @@ module.exports = (router) => {
           categoriesArr,
           ...navLeft,
           title: 'Categories',
+          list: true,
           categories: true,
           table: true,
           paging: false,

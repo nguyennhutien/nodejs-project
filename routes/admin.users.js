@@ -12,7 +12,7 @@ function dateFormatted(date) {
 
 module.exports = (router) => {
   /* GET users page. */
-  router.get(`/${collection}`, (req, res, next) => {
+  router.get(`/${collection}`, (req, res) => {
     User.find({})
       .exec()
       .then((usersArr) => {
@@ -30,6 +30,7 @@ module.exports = (router) => {
           usersArr,
           ...navLeft,
           title: 'Users',
+          list: true,
           users: true,
           table: true,
           paging: true,

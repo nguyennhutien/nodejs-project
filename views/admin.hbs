@@ -18,13 +18,17 @@
       {{#if dashboard}}
         {{> dashboard}}
       {{/if}}
-      {{#unless dashboard}}
-      {{#unless productDetail}}
+
+      {{#if list}}
         {{> list}}
-      {{/unless}}
-      {{/unless}}
+      {{/if}}
+
       {{#if productDetail}}
         {{> product_detail}}
+      {{/if}}
+
+      {{#if productCreate}}
+        {{> product_create}}
       {{/if}}
     </div>
     <!-- /#page-wrapper -->

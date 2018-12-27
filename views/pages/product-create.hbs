@@ -1,8 +1,7 @@
 <div class="row">
   <div class="col-lg-12">
     <div class="header-bar page-header">
-      <h1 class="">{{ title }}</h1>
-      <a class="header-bar__btn btn btn-success" href="/admin/products/create"><i class="fa fa-plus"></i> Create new product</a>
+      <h1 class="">Create new Product</h1>
     </div>
   </div>
   <!-- /.col-lg-12 -->
@@ -13,39 +12,38 @@
     <div class="panel panel-default">
       <div class="panel-heading">Product detail</div>
       <div class="panel-body">
-        <form class="form-horizontal" action="/admin/products/{{ product._id }}" method="POST" enctype="multipart/form-data">
+        <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
       		<div class="form-group row">
       			<label class="col-sm-2 control-label">Name</label>
       			<div class="col-sm-10">
-      				<input type="text" class="form-control" name="name" value="{{ product.name }}" />
+      				<input type="text" class="form-control" name="name" />
       			</div>
       		</div>
       		<div class="form-group row">
       			<label class="col-sm-2 control-label">Image</label>
       			<div class="col-sm-10">
-              <img src="{{ product.image }}" alt="{{ product.name }}" />
+              <input type="file" name="image" />
       			</div>
       		</div>
       		<div class="form-group row">
       			<label class="col-sm-2 control-label">Thumbnail</label>
       			<div class="col-sm-10">
-      				<img src="{{ product.thumbnail }}" alt="{{ product.name }} Thumbnail" width="100" />
+              <input type="file" name="thumbnail">
       			</div>
       		</div>
       		<div class="form-group row">
       			<label class="col-sm-2 control-label">Description</label>
       			<div class="col-sm-10">
-      				<textarea class="form-control" name="shortDescription" cols="30" rows="3">{{ product.shortDescription }}</textarea>
+      				<textarea class="form-control" name="shortDescription" cols="30" rows="3"></textarea>
       			</div>
       		</div>
       		<div class="form-group row">
       			<label class="col-sm-2 control-label">Category</label>
       			<div class="col-sm-10">
               <select class="form-control" name="category">
-                <option selected="selected" value="{{ product.category }}">{{ product.category }}</option>
-                {{#each categoriesArr}}
-      					<option value="{{ name }}">{{ name }}</option>
-                {{/each}}
+                <option value="men">men</option>
+                <option value="women">women</option>
+                <option value="accessories">accessories</option>
       				</select>
       			</div>
       		</div>
@@ -54,7 +52,7 @@
       			<div class="col-sm-10">
               <div class="input-group">
                 <span class="input-group-addon">$</span>
-      				  <input type="text" class="form-control" name="salePrice" value="{{ product.salePrice }}" />
+      				  <input type="text" class="form-control" name="salePrice" />
               </div>
       			</div>
       		</div>
@@ -63,33 +61,27 @@
       			<div class="col-sm-10">
               <div class="input-group">
                 <span class="input-group-addon">$</span>
-      				  <input type="text" class="form-control" name="originalPrice" value="{{ product.originalPrice }}" />
+      				  <input type="text" class="form-control" name="originalPrice" />
               </div>
       			</div>
       		</div>
           <div class="form-group row">
       			<label class="col-sm-2 control-label">Images</label>
       			<div class="col-sm-10">
-              {{#with product}}
-      				{{#each images}}
-              <img src="{{ this }}">
-              {{/each}}
-              {{/with}}
+              <input type="file" name="images">
+              <input type="file" name="images">
       			</div>
       		</div>
           <div class="form-group row">
       			<label class="col-sm-2 control-label">Thumbnails</label>
       			<div class="col-sm-10">
-              {{#with product}}
-      				{{#each thumbnails}}
-              <img src="{{ this }}" width="100">
-              {{/each}}
-              {{/with}}
+              <input type="file" name="thumbnails">
+              <input type="file" name="thumbnails">
       			</div>
       		</div>
           <div class="form-group">
             <div class="col-sm-2 control-label">
-      		    <button type="submit" class="btn btn-primary">Submit</button>
+      		    <button type="submit" class="btn btn-primary">Create</button>
             </div>
           </div>
       	</form>
