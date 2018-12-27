@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ."
+    "start": "cross-env nodemon DEBUG=app:* node ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -31,5 +31,9 @@
   "bugs": {
     "url": "https://github.com/nguyennhutien/nodejs-project/issues"
   },
-  "homepage": "https://github.com/nguyennhutien/nodejs-project#readme"
+  "homepage": "https://github.com/nguyennhutien/nodejs-project#readme",
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "nodemon": "^1.18.9"
+  }
 }
