@@ -1,65 +1,68 @@
-const Category = require('../models/Category');
+const Order = require('../models/Order');
+require('../models/User');
 
-const collection = 'categories';
+const collection = 'orders';
 
 module.exports = (router) => {
-  // GET all the categories
+  // GET all the orders
   router.get(`/${collection}`, (req, res) => {
-    Category.find({})
+    Order.find({})
+      .populate('user')
       .exec()
-      .then((categories) => {
-        res.sendRest(categories);
+      .then((orders) => {
+        res.sendRest(orders);
       })
       .catch((err) => {
         res.sendRest(err);
       });
   });
 
-  // POST: Create a new category
+  // POST: Create a new order
   router.post(`/${collection}`, (req, res) => {
-    Category.create(req.body)
-      .then((newCategory) => {
-        res.sendRest(newCategory);
+    Order.create(req.body)
+      .then((newOrder) => {
+        res.sendRest(newOrder);
       })
       .catch((err) => {
         res.sendRest(err);
       });
   });
 
-  // GET a single category
+  // GET a single order
   router.get(`/${collection}/:id`, (req, res) => {
     const { id } = req.params;
-    Category.findById(id)
+    Order.findById(id)
+      .populate('user')
       .exec()
-      .then((category) => {
-        res.sendRest(category);
+      .then((order) => {
+        res.sendRest(order);
       })
       .catch((err) => {
         res.sendRest(err);
       });
   });
 
-  // PATCH: update a category partially with new info
+  // PATCH: update a order partially with new info
   router.patch(`/${collection}/:id`, (req, res) => {
     const { id } = req.params;
     const updateBody = req.body;
-    Category.findByIdAndUpdate(id, updateBody)
+    Order.findByIdAndUpdate(id, updateBody)
       .exec()
-      .then((category) => {
-        res.sendRest({ ...category.toObject(), ...updateBody });
+      .then((order) => {
+        res.sendRest({ ...order.toObject(), ...updateBody });
       })
       .catch((err) => {
         res.sendRest(err);
       });
   });
 
-  // DELETE: category
+  // DELETE: order
   router.delete(`/${collection}/:id`, (req, res) => {
     const { id } = req.params;
-    Category.findByIdAndRemove(id)
+    Order.findByIdAndRemove(id)
       .exec()
-      .then((category) => {
-        res.sendRest(category);
+      .then((order) => {
+        res.sendRest(order);
       })
       .catch((err) => {
         res.sendRest(err);

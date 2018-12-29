@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const utils = require('../common/utils');
 
 const { Schema } = mongoose;
 
@@ -30,7 +31,7 @@ const userSchema = new Schema({
     required: true,
     validate: {
       validator(v) {
-        return /^[A-Za-z0-9_.-]+$/.test(v);
+        utils.validateUsername(v);
       },
       message: props => `${props.value} is not a valid username!`,
     },
@@ -41,7 +42,7 @@ const userSchema = new Schema({
     validate: [
       {
         validator(v) {
-          return /([\w.\-_]+)?\w+@[\w-_]+(\.\w+){1,}/.test(v);
+          utils.validateEmail(v);
         },
         message: props => `${props.value} is not a valid email!`,
       },
