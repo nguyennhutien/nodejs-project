@@ -1,9 +1,13 @@
+const fs = require('fs');
+const path = require('path');
 const numeral = require('numeral');
+const multer = require('multer');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 const navLeft = require('../components/navLeft');
 //const dataProducts = require('../data/products');
 
+const upload = multer({ dest: 'tmp/' });
 const collection = 'products';
 
 // function price format
@@ -75,27 +79,39 @@ module.exports = (router) => {
   });
 
   /* POST a new product */
-  router.post(`/${collection}/create`, (req, res) => {
+  router.post(`/${collection}/create`, upload.single('image'), (req, res) => {
     const newProduct = req.body;
-    console.log(newProduct);
+    const imageFile = req.file;
 
-    Product.create(newProduct)
-      .then((product) => {
-        Category.find({})
-        .exec()
-        .then((categoriesArr) => {
-          res.render('admin', {
-            product,
-            categoriesArr,
-            ...navLeft,
-            title: product.name,
-            productDetail: true,
-          });
+    fs.copyFile(
+      `${path.resolve(__dirname, '../' + imageFile.path)}`,
+      `${path.resolve(__dirname, '../public/uploads/' + imageFile.originalname)}`,
+      (err) => {
+        if (err) throw err;
+        console.log(`${imageFile.originalname} was uploaded`);
+
+        newProduct.image = `/uploads/${imageFile.originalname}`;
+
+        Product.create(newProduct)
+        .then((product) => {
+          Category.find({})
+          .exec()
+          .then((categoriesArr) => {
+            res.render('admin', {
+              product,
+              categoriesArr,
+              ...navLeft,
+              title: product.name,
+              productDetail: true,
+            });
+          })
         })
-      })
-      .catch((err) => {
-        res.sendRest(err);
-      })
+        .catch((err) => {
+          res.sendRest(err);
+        })
+    });
+
+
   });
 
   /* POST: update product infomation. */

@@ -6,6 +6,7 @@ const collection = 'products';
 module.exports = (router) => {
   // GET all the products & GET /api/products?filter={json}
   router.get(`/${collection}`, (req, res) => {
+    // GET /api/products?filter={json}
     if (req.query.filter) {
       const searchObj = JSON.parse(req.query.filter);
       // where: define a MongDB query object to filter out documents from the collection
@@ -27,6 +28,8 @@ module.exports = (router) => {
           res.sendRest(err);
         });
     }
+
+    // GET all the products
     Product.find({})
       .populate('category')
       .exec()
