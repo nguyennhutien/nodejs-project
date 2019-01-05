@@ -10,7 +10,6 @@ const debug = require('debug')('app');
 const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
 const adminRouter = require('./routes/admin');
-const apiUsersRouter = require('./routes/api.users');
 
 const app = express();
 
@@ -36,7 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/admin', adminRouter);
-app.use('/api-users', apiUsersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -54,16 +52,27 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-app.start = (PORT, MONGO_URL) => {
+app.start = (PORT, MONGO_URL) => new Promise((resolve, reject) => {
   mongoose
-    .connect(MONGO_URL)
+    .connect(
+      MONGO_URL,
+      { useNewUrlParser: true },
+    )
     .then(() => {
-      debug('Database connect success');
-      app.listen(PORT, () => console.log('App started and listening on port', PORT));
+      debug(`${MONGO_URL  } database connect success`);
+
+      const server = app.listen(PORT, (err) => {
+        if (err) {
+          return reject(err);
+        }
+        console.log('App started and listening on port', PORT);
+        resolve(server);
+      });
     })
     .catch((err) => {
-      debug(`Database connection error:${err}`);
+      debug(`Database connection error:${  err}`);
+      reject(err);
     });
-};
+});
 
 module.exports = app;

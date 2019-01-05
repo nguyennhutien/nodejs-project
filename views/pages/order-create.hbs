@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="header-bar page-header">
+      <h1 class="">Create new Order</h1>
+    </div>
+  </div>
+  <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">New Order</div>
+      <div class="panel-body">
+        <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Name</label>
+      			<div class="col-sm-10">
+      				<input type="text" class="form-control" name="name" />
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Order Date</label>
+      			<div class="col-sm-10">
+      				<input type="text" class="form-control" name="orderDate" />
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Shipped Date</label>
+      			<div class="col-sm-10">
+      				<input type="text" class="form-control" name="shippedDate" />
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Payment Type</label>
+      			<div class="col-sm-10">
+              <select class="form-control" name="paymentType">
+                <option value="cod">COD</option>
+                <option value="paypal">Paypal</option>
+                <option value="creditcard">Credit Card</option>
+                <option value="banktransfer">Bank Transfer</option>
+      				</select>
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Status</label>
+      			<div class="col-sm-10">
+              <select class="form-control" name="status">
+                <option value="pending">Pending</option>
+                <option value="processing">Processing</option>
+                <option value="shipping">Shipping</option>
+                <option value="delivered">Delivered</option>
+      				</select>
+      			</div>
+      		</div>
+          <div class="form-group row">
+      			<label class="col-sm-2 control-label">Payment Status</label>
+      			<div class="col-sm-10">
+      				<select class="form-control" name="paymentStatus">
+                <option value="paid">Paid</option>
+                <option value="unpaid">Unpaid</option>
+      				</select>
+      			</div>
+      		</div>
+          <div class="form-group">
+            <div class="col-sm-2 control-label">
+      		    <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+          </div>
+      	</form>
+      </div>
+    </div>
+
+
+
+  </div>
+  <!-- /.col-lg-12 -->
+</div>

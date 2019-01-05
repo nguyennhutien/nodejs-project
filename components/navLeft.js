@@ -7,7 +7,7 @@ const navLeft = {
     },
     {
       url: '/admin/products',
-      icon: 'shopping-basket',
+      icon: 'gift',
       title: 'Products',
     },
     {
@@ -17,8 +17,13 @@ const navLeft = {
     },
     {
       url: '/admin/users',
-      icon: 'user',
+      icon: 'users',
       title: 'Users',
+    },
+    {
+      url: '/admin/orders',
+      icon: 'shopping-basket',
+      title: 'Orders',
     },
   ],
 };

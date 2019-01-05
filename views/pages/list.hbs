@@ -1,6 +1,24 @@
 <div class="row">
   <div class="col-lg-12">
+    {{#unless products}}
+    {{#unless orders}}
     <h1 class="page-header">{{ title }} List</h1>
+    {{/unless}}
+    {{/unless}}
+
+    {{#if products}}
+    <div class="header-bar page-header">
+      <h1 class="">{{ title }} List</h1>
+      <a class="header-bar__btn btn btn-success" href="/admin/products/create"><i class="fa fa-plus"></i> Create new product</a>
+    </div>
+    {{/if}}
+
+    {{#if orders}}
+    <div class="header-bar page-header">
+      <h1 class="">{{ title }} List</h1>
+      <a class="header-bar__btn btn btn-success" href="/admin/orders/create"><i class="fa fa-plus"></i> Create new order</a>
+    </div>
+    {{/if}}
   </div>
   <!-- /.col-lg-12 -->
 </div>
@@ -55,6 +73,22 @@
                 <th>Zip Code</th>
                 <th>Country</th>
               {{/if}}
+
+              {{!-- orders --}}
+              {{#if orders}}
+                <th>Name</th>
+                <th>Order Date</th>
+                <th>Shipped Date</th>
+                <th>Customer</th>
+                <th>Payment Type</th>
+                <th>Status</th>
+                <th>Payment Status</th>
+                <th>Product ID</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Action</th>
+              {{/if}}
+
             </tr>
           </thead>
           <tbody>
@@ -115,6 +149,26 @@
               </tr>
               {{/each}}
             {{/if}}
+
+            {{!-- orders --}}
+            {{#if orders}}
+              {{#each ordersArr}}
+              <tr>
+                <td>{{ name }}</td>
+                <td>{{ orderDate }}</td>
+                <td>{{ shippedDate }}</td>
+                <td>{{ customer }}</td>
+                <td>{{ paymentType }}</td>
+                <td>{{ status }}</td>
+                <td>{{ paymentStatus }}</td>
+                <td>{{ productId }}</td>
+                <td>{{ quantity }}</td>
+                <td>{{ price }}</td>
+                <td class="text-center"><a class="btn btn-outline btn-default btn-xs" href="orders/{{ id }}">Detail</a></td>
+              </tr>
+              {{/each}}
+            {{/if}}
+
           </tbody>
         </table>
         <!-- /.table-responsive -->

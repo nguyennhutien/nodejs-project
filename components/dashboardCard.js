@@ -2,7 +2,7 @@ const dashboardCard = {
   analyticCard: [
     {
       name: 'Products',
-      icon: 'shopping-basket',
+      icon: 'gift',
       cardColor: 'primary',
     },
     {
@@ -12,8 +12,13 @@ const dashboardCard = {
     },
     {
       name: 'Users',
-      icon: 'user',
+      icon: 'users',
       cardColor: 'yellow',
+    },
+    {
+      name: 'Orders',
+      icon: 'shopping-basket',
+      cardColor: 'red',
     },
   ],
 };

@@ -39,6 +39,13 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
+# Temporary files
+tmp/
+
+# Upload files
+public/uploads/*
+!public/uploads/.keep
+
 # Optional npm cache directory
 .npm
 
@@ -59,3 +66,6 @@ typings/
 
 # next.js build output
 .next
+
+# vscode
+.vscode/

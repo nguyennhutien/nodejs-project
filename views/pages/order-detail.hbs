@@ -1,0 +1,83 @@
+<ol class="breadcrumb">
+  <li><a href="/admin/orders">Orders</a></li>
+  <li class="active">{{ title }}</li>
+</ol>
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">{{ title }}</h1>
+  </div>
+  <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">Order detail</div>
+      <div class="panel-body">
+        <form class="form-horizontal" action="/admin/orders/{{ order._id }}" method="POST" enctype="multipart/form-data">
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Name</label>
+      			<div class="col-sm-10">
+      				<input type="text" class="form-control" name="name" value="{{ order.name }}" />
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Order Date</label>
+      			<div class="col-sm-10">
+      				<input type="text" class="form-control" name="orderDate" value="{{ order.orderDate }}" />
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Shipped Date</label>
+      			<div class="col-sm-10">
+      				<input type="text" class="form-control" name="shippedDate" value="{{ order.orderDate }}" />
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Payment Type</label>
+      			<div class="col-sm-10">
+              <select class="form-control" name="paymentType">
+                <option selected="selected" value="{{ order.paymentType }}">{{ order.paymentType }}</option>
+                <option value="cod">COD</option>
+                <option value="paypal">Paypal</option>
+                <option value="creditcard">Credit Card</option>
+                <option value="banktransfer">Bank Transfer</option>
+      				</select>
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Status</label>
+      			<div class="col-sm-10">
+              <select class="form-control" name="status">
+                <option selected="selected" value="{{ order.status }}">{{ order.status }}</option>
+                <option value="pending">Pending</option>
+                <option value="processing">Processing</option>
+                <option value="shipping">Shipping</option>
+                <option value="delivered">Delivered</option>
+      				</select>
+      			</div>
+      		</div>
+          <div class="form-group row">
+      			<label class="col-sm-2 control-label">Payment Status</label>
+      			<div class="col-sm-10">
+      				<select class="form-control" name="paymentStatus">
+                <option selected="selected" value="{{ order.paymentStatus }}">{{ order.paymentStatus }}</option>
+                <option value="paid">Paid</option>
+                <option value="unpaid">Unpaid</option>
+      				</select>
+      			</div>
+      		</div>
+          <div class="form-group">
+            <div class="col-sm-2 control-label">
+      		    <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+          </div>
+      	</form>
+      </div>
+    </div>
+
+
+
+  </div>
+  <!-- /.col-lg-12 -->
+</div>
