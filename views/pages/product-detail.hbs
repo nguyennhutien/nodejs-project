@@ -1,3 +1,7 @@
+<ol class="breadcrumb">
+  <li><a href="/admin/products">Products</a></li>
+  <li class="active">{{ title }}</li>
+</ol>
 <div class="row">
   <div class="col-lg-12">
     <h1 class="page-header">{{ title }}</h1>
@@ -8,78 +12,93 @@
 <div class="row">
   <div class="col-lg-12">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        DataTables Advanced Tables
-      </div>
-      <!-- /.panel-heading -->
+      <div class="panel-heading">Product detail</div>
       <div class="panel-body">
-        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-          <thead>
-            <tr>
-              <th>Key</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each products as |i key|}}
-              {{#if i}}
-              <tr>
-                <td>ID</td>
-                <td>{{ id }}</td>
-              </tr>
-              <tr>
-                <td>Name</td>
-                <td>{{ name }}</td>
-              </tr>
-              <tr>
-                <td>Image</td>
-                <td><img src="{{ image }}" alt="{{ name }}"></td>
-              </tr>
-              <tr>
-                <td>Thumbnail</td>
-                <td><img src="{{ thumbnail }}" alt="{{ name }} Thumbnail" width="100"></td>
-              </tr>
-              <tr>
-                <td>Description</td>
-                <td>{{ shortDescription }}</td>
-              </tr>
-              <tr>
-                <td>Category Id</td>
-                <td>{{ categoryId }}</td>
-              </tr>
-              <tr>
-                <td>Sale Price</td>
-                <td>{{ salePrice }}</td>
-              </tr>
-              <tr>
-                <td>Original Price</td>
-                <td>{{ originalPrice }}</td>
-              </tr>
-              <tr>
-                <td>Images</td>
-                <td>
-                  {{#each images}}
-                  <img src="{{ this }}">
-                  {{/each}}
-                </td>
-              </tr>
-              <tr>
-                <td>Thumbnails</td>
-                <td>
-                  {{#each thumbnails}}
-                  <img src="{{ this }}" width="100">
-                  {{/each}}
-                </td>
-              </tr>
-              {{/if}}
-            {{/each}}
-          </tbody>
-        </table>
-        <!-- /.table-responsive -->
+        <form class="form-horizontal" action="/admin/products/{{ product._id }}" method="POST" enctype="multipart/form-data">
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Name</label>
+      			<div class="col-sm-10">
+      				<input type="text" class="form-control" name="name" value="{{ product.name }}" />
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Image</label>
+      			<div class="col-sm-10">
+              <img src="{{ product.image }}" alt="{{ product.name }}" />
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Thumbnail</label>
+      			<div class="col-sm-10">
+      				<img src="{{ product.thumbnail }}" alt="{{ product.name }} Thumbnail" width="100" />
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Description</label>
+      			<div class="col-sm-10">
+      				<textarea class="form-control" name="shortDescription" cols="30" rows="3">{{ product.shortDescription }}</textarea>
+      			</div>
+      		</div>
+      		<div class="form-group row">
+      			<label class="col-sm-2 control-label">Category</label>
+      			<div class="col-sm-10">
+              <select class="form-control" name="category">
+                <option selected="selected" value="{{ product.category }}">{{ product.category }}</option>
+                {{#each categoriesArr}}
+      					<option value="{{ name }}">{{ name }}</option>
+                {{/each}}
+      				</select>
+      			</div>
+      		</div>
+          <div class="form-group row">
+      			<label class="col-sm-2 control-label">Sale Price</label>
+      			<div class="col-sm-10">
+              <div class="input-group">
+                <span class="input-group-addon">$</span>
+      				  <input type="text" class="form-control" name="salePrice" value="{{ product.salePrice }}" />
+              </div>
+      			</div>
+      		</div>
+          <div class="form-group row">
+      			<label class="col-sm-2 control-label">Original Price</label>
+      			<div class="col-sm-10">
+              <div class="input-group">
+                <span class="input-group-addon">$</span>
+      				  <input type="text" class="form-control" name="originalPrice" value="{{ product.originalPrice }}" />
+              </div>
+      			</div>
+      		</div>
+          <div class="form-group row">
+      			<label class="col-sm-2 control-label">Images</label>
+      			<div class="col-sm-10">
+              {{#with product}}
+      				{{#each images}}
+              <img src="{{ this }}">
+              {{/each}}
+              {{/with}}
+      			</div>
+      		</div>
+          <div class="form-group row">
+      			<label class="col-sm-2 control-label">Thumbnails</label>
+      			<div class="col-sm-10">
+              {{#with product}}
+      				{{#each thumbnails}}
+              <img src="{{ this }}" width="100">
+              {{/each}}
+              {{/with}}
+      			</div>
+      		</div>
+          <div class="form-group">
+            <div class="col-sm-2 control-label">
+      		    <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </div>
+      	</form>
       </div>
-      <!-- /.panel-body -->
     </div>
-    <!-- /.panel -->
+
+
+
   </div>
   <!-- /.col-lg-12 -->
 </div>
