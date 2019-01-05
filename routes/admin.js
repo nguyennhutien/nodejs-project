@@ -4,6 +4,7 @@ const router = express.Router();
 const routerProducts = require('./admin.products');
 const routerUsers = require('./admin.users');
 const routerCategories = require('./admin.categories');
+const routerOrders = require('./admin.orders');
 
 const navLeft = require('../components/navLeft');
 const dashboardCard = require('../components/dashboardCard');
@@ -11,6 +12,7 @@ const dashboardCard = require('../components/dashboardCard');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Category = require('../models/Category');
+const Order = require('../models/Order');
 
 const contextDashboard = { ...navLeft, ...dashboardCard };
 
@@ -54,6 +56,7 @@ router.get('/', (req, res) => {
   let totalProducts;
   let totalUsers;
   let totalCategories;
+  let totalOrders;
 
   Product.count({}, (err, count) => {
     totalProducts = count;
@@ -70,24 +73,30 @@ router.get('/', (req, res) => {
       })
       .exec()
       .then(() => {
-        // calculate total number of products, users, categories
-        contextDashboard.analyticCard.forEach(e => {
-          if (e.name === 'Products') {
-            e.totalCount = totalProducts;
-          }
-          else if (e.name === 'Users') {
-            e.totalCount = totalUsers;
-          }
-          else {
-            e.totalCount = totalCategories;
-          }
-        });
-        /* GET admin page. */
-        res.render('admin', {
-          title: 'Dashboard',
-          dashboard: true,
-          ...contextDashboard,
-        });
+        Order.count({}, (err, count) => {
+          totalOrders = count;
+          // calculate total number of products, users, categories
+          contextDashboard.analyticCard.forEach(e => {
+            if (e.name === 'Products') {
+              e.totalCount = totalProducts;
+            }
+            else if (e.name === 'Users') {
+              e.totalCount = totalUsers;
+            }
+            else if (e.name === 'Categories') {
+              e.totalCount = totalCategories;
+            }
+            else {
+              e.totalCount = totalOrders;
+            }
+          });
+          /* GET admin page. */
+          res.render('admin', {
+            title: 'Dashboard',
+            dashboard: true,
+            ...contextDashboard,
+          });
+        })
       })
     })
   })
@@ -97,5 +106,6 @@ router.get('/', (req, res) => {
 routerProducts(router);
 routerUsers(router);
 routerCategories(router);
+routerOrders(router);
 
 module.exports = router;

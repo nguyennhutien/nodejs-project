@@ -2,6 +2,7 @@ const express = require('express');
 const apiUsers = require('./api.users');
 const apiProducts = require('./api.products');
 const apiCategories = require('./api.categories');
+const apiOrders = require('./api.orders');
 
 const router = express.Router();
 
@@ -53,5 +54,6 @@ router.get('/', (req, res) => {
 apiProducts(router);
 apiUsers(router);
 apiCategories(router);
+apiOrders(router);
 
 module.exports = router;

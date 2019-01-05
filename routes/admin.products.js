@@ -120,7 +120,7 @@ module.exports = (router) => {
     const { id } = req.params;
     const updateProduct = req.body;
 
-    console.log(updateProduct);
+    console.log(req.body); // ???
 
     Category.find({})
       .exec()
