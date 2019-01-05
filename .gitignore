@@ -42,6 +42,10 @@ typings/
 # Temporary files
 tmp/
 
+# Upload files
+public/uploads/*
+!public/uploads/.keep
+
 # Optional npm cache directory
 .npm
 
