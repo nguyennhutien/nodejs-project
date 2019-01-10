@@ -120,8 +120,6 @@ module.exports = (router) => {
     const { id } = req.params;
     const updateProduct = req.body;
 
-    console.log(req.body); // ???
-
     Category.find({})
       .exec()
       .then((categoriesArr) => {
@@ -129,13 +127,7 @@ module.exports = (router) => {
         Product.findByIdAndUpdate(id, updateProduct)
           .exec()
           .then((oldProduct) => {
-            res.render('admin', {
-              categoriesArr,
-              ...navLeft,
-              product: { ...oldProduct.toObject(), ...updateProduct },
-              title: product.name,
-              productDetail: true,
-            });
+            res.redirect(`/admin/products/${id}`);
           })
       })
       .catch(err => {
